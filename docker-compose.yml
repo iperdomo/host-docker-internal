@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  web:
+    image: nginx:1.25-alpine3.17
+    ports:
+      - "8080:80"
+  test-1:
+    image: alpine:3.17
+    entrypoint: ./entrypoint.sh
+    volumes:
+      - ./:/usr/local/src
+    working_dir: /usr/local/src
+    depends_on:
+      - web
+  test-2:
+    image: alpine:3.17
+    entrypoint: ./entrypoint.sh
+    volumes:
+      - ./:/usr/local/src
+    working_dir: /usr/local/src
+    depends_on:
+      - web
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
